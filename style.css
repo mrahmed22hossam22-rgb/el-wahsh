@@ -1256,7 +1256,7 @@ body {
 /* ===== CART BAR ===== */
 .tshirt-cart-bar {
   position: fixed;
-  top: 100px;
+  top: 80px;
   left: 50%;
   transform: translateX(-50%);
   background: var(--dark3);
@@ -1265,14 +1265,27 @@ body {
   padding: 16px 24px;
   width: min(92vw, 520px);
   box-shadow: 0 4px 30px rgba(57,255,20,0.2);
-  z-index: 999;
+  z-index: 10000;
   flex-direction: column;
+  display: none;
+  max-height: 60vh;
+  overflow-y: auto;
 }
 @media (max-width: 768px) {
   .tshirt-cart-bar {
-    top: 90px;
+    top: 70px;
     width: 95vw;
     padding: 12px 16px;
+    z-index: 10000;
+    max-height: 50vh;
+  }
+  .cart-item-row {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+  .cart-actions {
+    flex-direction: column;
+    gap: 8px;
   }
 }
 .cart-items-list { width: 100%; display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
