@@ -1268,6 +1268,20 @@ body {
   z-index: 999;
   flex-direction: column;
 }
+.product-cart-bar {
+  position: fixed;
+  bottom: 300px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--dark3);
+  border: 1px solid var(--green);
+  border-radius: 16px;
+  padding: 16px 24px;
+  width: min(92vw, 520px);
+  box-shadow: 0 4px 30px rgba(57,255,20,0.2);
+  z-index: 999;
+  flex-direction: column;
+}
 .cart-items-list { width: 100%; display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
 .cart-item-row {
   display: flex;
