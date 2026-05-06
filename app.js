@@ -163,8 +163,6 @@ function addToCartTshirt(btn) {
   btn.textContent = '✅ تمت الإضافة';
   btn.style.background = '#1a4a1a';
   setTimeout(() => { btn.textContent = 'أضف للسلة 🛒'; btn.style.background = ''; }, 1500);
-  // Show notification
-  showCartNotification();
 }
 
 function addToCartProduct(btn) {
@@ -177,28 +175,6 @@ function addToCartProduct(btn) {
   btn.textContent = '✅ تمت الإضافة';
   btn.style.background = '#1a4a1a';
   setTimeout(() => { btn.textContent = 'أضف للسلة 🛒'; btn.style.background = ''; }, 1500);
-  // Show notification
-  showCartNotification();
-}
-
-function showCartNotification() {
-  const notification = document.createElement('div');
-  notification.textContent = 'تم إضافة المنتج للسلة!';
-  notification.style.position = 'fixed';
-  notification.style.top = '50%';
-  notification.style.left = '50%';
-  notification.style.transform = 'translate(-50%, -50%)';
-  notification.style.background = 'var(--green)';
-  notification.style.color = '#050a05';
-  notification.style.padding = '12px 24px';
-  notification.style.borderRadius = '8px';
-  notification.style.zIndex = '10001';
-  notification.style.fontWeight = '700';
-  notification.style.fontSize = '16px';
-  document.body.appendChild(notification);
-  setTimeout(() => {
-    notification.remove();
-  }, 2000);
 }
 
 function removeFromCart(id) {
@@ -224,10 +200,6 @@ function updateCartBar() {
       <button class="cart-remove-btn" onclick="removeFromCart(${item.id})">✕ حذف</button>
     </div>`;
   }).join('');
-  // Scroll to top to show cart on mobile
-  if (window.innerWidth <= 768) {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
 }
 
 function checkoutTshirts() {
