@@ -1,0 +1,14 @@
+Options -Indexes
+
+# Protect config folder
+<FilesMatch "^(db\.php)$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+
+# Rewrite rules
+RewriteEngine On
+RewriteBase /
+
+# API routing
+RewriteRule ^api/([a-z_]+)$ api/$1.php [L,QSA]
