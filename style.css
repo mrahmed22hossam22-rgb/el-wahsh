@@ -730,6 +730,22 @@ body {
   box-shadow: 0 10px 24px rgba(57,255,20,0.25);
   background: #e7ffd8;
 }
+.supp-add-btn {
+  background: var(--green);
+  color: #050a05;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  width: fit-content;
+}
+.supp-add-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(57,255,20,0.25);
+  background: #e7ffd8;
+}
 
 /* ===== BOOKING ===== */
 .booking-section { max-width: 700px; }

@@ -165,6 +165,18 @@ function addToCartTshirt(btn) {
   setTimeout(() => { btn.textContent = 'أضف للسلة 🛒'; btn.style.background = ''; }, 1500);
 }
 
+function addToCartProduct(btn) {
+  const product = btn.closest('.supp-product');
+  const name = product.querySelector('.supp-prod-info p')?.textContent.trim();
+  const price = product.querySelector('.supp-price')?.textContent.trim();
+  const id = Date.now() + Math.floor(Math.random() * 1000);
+  cartItems.push({ id, name, size: '', price });
+  updateCartBar();
+  btn.textContent = '✅ تمت الإضافة';
+  btn.style.background = '#1a4a1a';
+  setTimeout(() => { btn.textContent = 'أضف للسلة 🛒'; btn.style.background = ''; }, 1500);
+}
+
 function removeFromCart(id) {
   cartItems = cartItems.filter(i => i.id !== id);
   updateCartBar();
@@ -181,18 +193,22 @@ function updateCartBar() {
     return;
   }
   bar.style.display = 'flex';
-  listEl.innerHTML = cartItems.map(item =>
-    `<div class="cart-item-row">
-      <span>${item.name} – مقاس ${item.size} – ${item.price}</span>
+  listEl.innerHTML = cartItems.map(item => {
+    const sizeText = item.size ? ` – مقاس ${item.size}` : '';
+    return `<div class="cart-item-row">
+      <span>${item.name}${sizeText} – ${item.price}</span>
       <button class="cart-remove-btn" onclick="removeFromCart(${item.id})">✕ حذف</button>
-    </div>`
-  ).join('');
+    </div>`;
+  }).join('');
 }
 
 function checkoutTshirts() {
   if (!cartItems.length) return;
-  const itemsList = cartItems.map(i => `• ${i.name} - مقاس ${i.size} - ${i.price}`).join('\n');
-  window.open(`https://wa.me/201149694169?text=${encodeURIComponent('طلب تيشيرتات HULK GYM:\n' + itemsList + '\nأرجو التواصل لتأكيد الطلب')}`, '_blank');
+  const itemsList = cartItems.map(i => {
+    const sizeText = i.size ? ` - مقاس ${i.size}` : '';
+    return `• ${i.name}${sizeText} - ${i.price}`;
+  }).join('\n');
+  window.open(`https://wa.me/201149694169?text=${encodeURIComponent('طلب منتجات HULK GYM:\n' + itemsList + '\nأرجو التواصل لتأكيد الطلب')}`, '_blank');
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -206,16 +222,11 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.supp-product').forEach(product => {
     const info = product.querySelector('.supp-prod-info');
     if (!info) return;
-    const name = info.querySelector('p')?.textContent.trim();
-    const price = info.querySelector('.supp-price')?.textContent.trim();
-    if (!name || !price) return;
-    const message = encodeURIComponent(`طلب منتج من HULK GYM: ${name}\nالسعر: ${price}\nأرجو التواصل لتأكيد الطلب`);
-    const btn = document.createElement('a');
-    btn.href = `https://wa.me/201149694169?text=${message}`;
-    btn.target = '_blank';
-    btn.rel = 'noopener';
-    btn.className = 'supp-buy-btn';
-    btn.textContent = 'اطلب عبر واتساب';
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'supp-add-btn';
+    btn.textContent = 'أضف للسلة 🛒';
+    btn.addEventListener('click', function() { addToCartProduct(this); });
     info.appendChild(btn);
   });
 
