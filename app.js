@@ -202,6 +202,23 @@ document.addEventListener('DOMContentLoaded', function() {
       this.classList.add('active');
     });
   });
+
+  document.querySelectorAll('.supp-product').forEach(product => {
+    const info = product.querySelector('.supp-prod-info');
+    if (!info) return;
+    const name = info.querySelector('p')?.textContent.trim();
+    const price = info.querySelector('.supp-price')?.textContent.trim();
+    if (!name || !price) return;
+    const message = encodeURIComponent(`طلب منتج من HULK GYM: ${name}\nالسعر: ${price}\nأرجو التواصل لتأكيد الطلب`);
+    const btn = document.createElement('a');
+    btn.href = `https://wa.me/201149694169?text=${message}`;
+    btn.target = '_blank';
+    btn.rel = 'noopener';
+    btn.className = 'supp-buy-btn';
+    btn.textContent = 'اطلب عبر واتساب';
+    info.appendChild(btn);
+  });
+
   document.querySelectorAll('.supp-cat-card, .trainer-card, .tshirt-card').forEach(el => {
     el.style.opacity = '0'; el.style.transform = 'translateY(20px)'; el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
     new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; } }); }, { threshold: 0.1 }).observe(el);
