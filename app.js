@@ -142,8 +142,7 @@ function toggleMenu() {
 }
 
 // ===== T-SHIRTS =====
-let tshirtCartItems = [];
-let productCartItems = [];
+let cartItems = [];
 
 function filterTshirts(color, btn) {
   document.querySelectorAll('.tshirt-ctrl-btn').forEach(b => b.classList.remove('active'));
@@ -159,8 +158,8 @@ function addToCartTshirt(btn) {
   const activeSize = card.querySelector('.size-btn.active')?.textContent || 'M';
   const price = card.querySelector('.tshirt-price').textContent;
   const id = Date.now();
-  tshirtCartItems.push({ id, name, size: activeSize, price });
-  updateTshirtCartBar();
+  cartItems.push({ id, name, size: activeSize, price, type: 'tshirt' });
+  updateCartBar();
   btn.textContent = '✅ تمت الإضافة';
   btn.style.background = '#1a4a1a';
   setTimeout(() => { btn.textContent = 'أضف للسلة 🛒'; btn.style.background = ''; }, 1500);
@@ -171,71 +170,44 @@ function addToCartProduct(btn) {
   const name = product.querySelector('.supp-prod-info p')?.textContent.trim();
   const price = product.querySelector('.supp-price')?.textContent.trim();
   const id = Date.now() + Math.floor(Math.random() * 1000);
-  productCartItems.push({ id, name, size: '', price });
-  updateProductCartBar();
+  cartItems.push({ id, name, size: '', price, type: 'product' });
+  updateCartBar();
   btn.textContent = '✅ تمت الإضافة';
   btn.style.background = '#1a4a1a';
   setTimeout(() => { btn.textContent = 'أضف للسلة 🛒'; btn.style.background = ''; }, 1500);
 }
 
-function removeFromTshirtCart(id) {
-  tshirtCartItems = tshirtCartItems.filter(i => i.id !== id);
-  updateTshirtCartBar();
+function removeFromCart(id) {
+  cartItems = cartItems.filter(i => i.id !== id);
+  updateCartBar();
 }
 
-function removeFromProductCart(id) {
-  productCartItems = productCartItems.filter(i => i.id !== id);
-  updateProductCartBar();
-}
-
-function updateTshirtCartBar() {
+function updateCartBar() {
   const bar = document.getElementById('tshirtCartBar');
-  const countEl = document.getElementById('tshirtCartCount');
-  const listEl = document.getElementById('tshirtCartItemsList');
-  countEl.textContent = tshirtCartItems.length;
-  if (tshirtCartItems.length === 0) {
+  const countEl = document.getElementById('cartCount');
+  const listEl = document.getElementById('cartItemsList');
+  countEl.textContent = cartItems.length;
+  if (cartItems.length === 0) {
     bar.style.display = 'none';
     listEl.innerHTML = '';
     return;
   }
   bar.style.display = 'flex';
-  listEl.innerHTML = tshirtCartItems.map(item => {
+  listEl.innerHTML = cartItems.map(item => {
     const sizeText = item.size ? ` – مقاس ${item.size}` : '';
     return `<div class="cart-item-row">
       <span>${item.name}${sizeText} – ${item.price}</span>
-      <button class="cart-remove-btn" onclick="removeFromTshirtCart(${item.id})">✕ حذف</button>
-    </div>`;
-  }).join('');
-}
-
-function updateProductCartBar() {
-  const bar = document.getElementById('productCartBar');
-  const countEl = document.getElementById('productCartCount');
-  const listEl = document.getElementById('productCartItemsList');
-  countEl.textContent = productCartItems.length;
-  if (productCartItems.length === 0) {
-    bar.style.display = 'none';
-    listEl.innerHTML = '';
-    return;
-  }
-  bar.style.display = 'flex';
-  listEl.innerHTML = productCartItems.map(item => {
-    return `<div class="cart-item-row">
-      <span>${item.name} – ${item.price}</span>
-      <button class="cart-remove-btn" onclick="removeFromProductCart(${item.id})">✕ حذف</button>
+      <button class="cart-remove-btn" onclick="removeFromCart(${item.id})">✕ حذف</button>
     </div>`;
   }).join('');
 }
 
 function checkoutTshirts() {
-  if (!tshirtCartItems.length) return;
-  const itemsList = tshirtCartItems.map(i => `• ${i.name} - مقاس ${i.size} - ${i.price}`).join('\n');
-  window.open(`https://wa.me/201149694169?text=${encodeURIComponent('طلب تيشيرتات HULK GYM:\n' + itemsList + '\nأرجو التواصل لتأكيد الطلب')}`, '_blank');
-}
-
-function checkoutProducts() {
-  if (!productCartItems.length) return;
-  const itemsList = productCartItems.map(i => `• ${i.name} - ${i.price}`).join('\n');
+  if (!cartItems.length) return;
+  const itemsList = cartItems.map(i => {
+    const sizeText = i.size ? ` - مقاس ${i.size}` : '';
+    return `• ${i.name}${sizeText} - ${i.price}`;
+  }).join('\n');
   window.open(`https://wa.me/201149694169?text=${encodeURIComponent('طلب منتجات HULK GYM:\n' + itemsList + '\nأرجو التواصل لتأكيد الطلب')}`, '_blank');
 }
 
