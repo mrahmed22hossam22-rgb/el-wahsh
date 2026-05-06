@@ -148,6 +148,7 @@ body {
 .green-word {
   color: var(--green);
   text-shadow: 0 0 25px var(--green);
+  padding-bottom: 10px;
 }
 
 .hero-sub {
